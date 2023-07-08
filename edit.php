@@ -1,19 +1,20 @@
 <?php
+require "koneksi.php";
 
-include 'koneksi.php';
+$id = $_GET["id"];
 
-if (isset($_POST["submit"])) {
-
-    if (submit($_POST) > 0) {
-        echo "
-        <script>
-        alert('Submit Berhasil');
-        document.location.href='indeks.php';
-        </script>
-        ";
-    } else {
-        "Gagal";
-    }
+$data = mysqli_query($conn, "SELECT * FROM formulir_kerja WHERE id = $id");
+while ($isi = mysqli_fetch_array($data)) {
+    $id = $isi['id'];
+    $nama = $isi['nama'];
+    $email = $isi['email'];
+    $gender = $isi['gender'];
+    $telepon = $isi['telepon'];
+    $ttd = $isi['ttd'];
+    $alamat = $isi['alamat'];
+    $pendidikan = $isi['pendidikan'];
+    $link = $isi['link'];
+    $posisi = $isi['posisi'];
 }
 ?>
 
@@ -30,18 +31,22 @@ if (isset($_POST["submit"])) {
 <body>
     <section class="container">
         <header>Form Pelamar Kerja</header>
-        <form action="" class="form" method="post">
+        <form action="update.php" class="form" method="post">
+            <div class="input-box">
+                <input class="form-label" type="hidden" name="id" value="<?= $id; ?>">
+            </div>
             <div class="input-box">
                 <label>Nama Lengkap</label>
-                <input type="text" name="nama" placeholder="Masukkan Nama Lengkap Anda" required>
+                <input type="text" name="nama" placeholder="Masukkan Nama Lengkap Anda" required value="<?= $nama; ?>">
             </div>
             <div class="input-box">
                 <label>Email</label>
-                <input type="email" name="email" placeholder="Masukkan Alamat Email Anda" required>
+                <input type="email" name="email" placeholder="Masukkan Alamat Email Anda" required
+                    value="<?= $email; ?>">
             </div>
             <div class="gender-box">
                 <h3>Jenis Kelamin</h3>
-                <div class="gender-option" name="gender">
+                <div class="gender-option" name="gender" required value="<?= $gender; ?>">
                     <div class="gender">
                         <input value="pria" type="radio" id="pria" name="gender" checked>
                         <label for="pria">Pria</label>
@@ -55,20 +60,22 @@ if (isset($_POST["submit"])) {
             <div class="column">
                 <div class="input-box">
                     <label>No Telepon</label>
-                    <input name="telepon" type="text" placeholder="Masukkan No Telepon" required>
+                    <input name="telepon" type="text" placeholder="Masukkan No Telepon" required
+                        value="<?= $telepon; ?>">
                 </div>
                 <div class="input-box">
                     <label>Tanggal Lahir</label>
-                    <input name="ttd" type="date" placeholder="Masukkan Tanggal Lahir" required>
+                    <input name="ttd" type="date" required value="<?= $ttd; ?>">
                 </div>
             </div>
             <div class="input-box alamat">
                 <label>Alamat Domisili</label>
-                <input name="alamat" type="text" placeholder="Masukkan Alamat Domisili Anda" required>
+                <input name="alamat" type="text" placeholder="Masukkan Alamat Domisili Anda" required
+                    value="<?= $alamat; ?>">
                 <div class="column">
                     <label>Pendidikan Terakhir</label>
                     <div class="select-box">
-                        <select name="pendidikan">
+                        <select name="pendidikan" required value="<?= $pendidikan; ?>">
                             <option value="terakhir" hidden>Pendidikan Terakhir</option>
                             <option value="d3">Akademi/Diploma III/S.Muda</option>
                             <option value="d4">Diploma IV/Strata I</option>
@@ -76,12 +83,12 @@ if (isset($_POST["submit"])) {
                             <option value="s3">Strata III</option>
                         </select>
                     </div>
-                    <input name="link" type="text" placeholder="Link Akun Linkedln" required>
+                    <input name="link" type="text" placeholder="Link Akun Linkedln" required value="<?= $link; ?>">
                 </div>
                 <div class="input-box">
                     <label>Posisi yang Dilamar</label>
                     <div class="select-box">
-                        <select name="posisi">
+                        <select name="posisi" required value="<?= $posisi; ?>">
                             <option value="pilih" hidden>Pilih Posisi yang Dilamar</option>
                             <option value="ml">Machine Learning Engineer</option>
                             <option value="de">Data Engineer</option>
